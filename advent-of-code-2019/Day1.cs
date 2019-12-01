@@ -10,7 +10,7 @@ namespace advent_of_code_2019
     {
         public static int Problem1(IEnumerable<int> input)
         {       
-            return input.Sum(x => (x / 3) - 2);
+            return input.Sum(CalculateFuelForMass);
         }
 
         public static int Problem2(IEnumerable<int> input)
@@ -18,16 +18,21 @@ namespace advent_of_code_2019
             return input.Sum(x => SumOfFuels(x, 0));
         }
 
-        private static int SumOfFuels(int fuel, int sum)
+        public static int SumOfFuels(int mass, int sum)
         {
-            fuel = (fuel / 3) - 2;
+            mass = CalculateFuelForMass(mass);
 
-            if (fuel <= 0)
+            if (mass <= 0)
                 return sum;
 
-            sum += fuel;
+            sum += mass;
 
-            return SumOfFuels(fuel, sum);
+            return SumOfFuels(mass, sum);
+        }
+
+        public static int CalculateFuelForMass(int mass)
+        {
+            return (mass / 3) - 2;
         }
     }
 }
