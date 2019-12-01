@@ -6,4 +6,9 @@
     <RootNamespace>advent_of_code_2019</RootNamespace>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="input\" />
+    <Folder Include="extensions\" />
+  </ItemGroup>
+
 </Project>
