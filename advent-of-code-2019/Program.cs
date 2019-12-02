@@ -11,6 +11,10 @@ namespace advent_of_code_2019
             var day1Input = InputReader.ReadInput(day: 1).Select(x => int.Parse(x));
             Console.WriteLine($"Day one, problem 1: {Day1.Problem1(day1Input)}");
             Console.WriteLine($"Day one, problem 2: {Day1.Problem2(day1Input)}");
+
+            var day2Input = InputReader.ReadInput(day: 2, delimiter: ",").Select(x => int.Parse(x)).ToArray();
+            Console.WriteLine($"Day one, problem 1: {Day2.Problem1(day2Input)}");
+
             Console.ReadLine();
         }
     }

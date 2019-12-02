@@ -9,8 +9,15 @@ namespace advent_of_code_2019.helpers
     {
         public static IEnumerable<string> ReadInput(int day)
         {
-            var filePath = @$"..\..\..\input\day{day}.txt";
+            var filePath = $@"..\..\..\input\day{day}.txt";
             return File.ReadAllLines(filePath);            
+        }
+
+        public static IEnumerable<string> ReadInput(int day, string delimiter)
+        {
+            var filePath = $@"..\..\..\input\day{day}.txt";
+            var content = File.ReadAllText(filePath);
+            return content.Split(delimiter);
         }
     }
 }
