@@ -1,5 +1,8 @@
-﻿using System;
+﻿using advent_of_code_2019.Intcode;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 
 namespace advent_of_code_2019
@@ -7,7 +10,7 @@ namespace advent_of_code_2019
     public static class Day2
     {
 
-        public static int Problem1(int[] input)
+        public static int Problem1(List<int> input)
         {
             /*
              * Once you have a working computer, the first step is to restore the gravity assist program (your puzzle input) to the "1202 program alarm" state it had just before the last computer caught fire.
@@ -22,9 +25,36 @@ namespace advent_of_code_2019
             return input[0];
         }
 
-        public static int[] ProcessOpCodes(int[] input)
+        public static int Problem2(List<int> input)
         {
-            for (int i = 0; i < input.Length; i += 4)
+            var instructionSet = new Dictionary<int, IntcodeInstruction>()
+            {
+                { 1, new IntcodeInstruction(){ ParametersLength = 2, Operation = parameters => parameters.Sum() } },
+                { 2, new IntcodeInstruction(){ ParametersLength = 2, Operation = parameters => parameters.Aggregate( (result, item) => result * item ) } },
+                { 99, new IntcodeInstruction(){ ParametersLength = 0 } }
+            };
+
+            for(int noun = 0; noun < 100; noun++)
+            {
+                for(int verb = 0; verb < 100; verb++)
+                {
+                    var inputCopy = input.ToList();
+                    var computer = new IntcodeComputer(inputCopy, instructionSet, noun, verb);
+                    var result = computer.Evaluate();
+                    var output = result[0];
+
+                    if (output == 19690720)
+                        return (100 * noun) + verb;
+                }
+            }
+
+           
+            return -1;
+        }
+
+        public static List<int> ProcessOpCodes(List<int> input)
+        {
+            for (int i = 0; i < input.Count; i += 4)
             {
                 var opCode = input[i];
 
