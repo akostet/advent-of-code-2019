@@ -9,25 +9,28 @@ namespace advent_of_code_2019.Intcode
     {
         private List<int> _memory;
         private Dictionary<int, IntcodeInstruction> _instructionSet;
-        private int _noun;
-        private int _verb;
 
-        public IntcodeComputer(List<int> Memory, Dictionary<int, IntcodeInstruction> InstructionSet, int Noun, int Verb)
+        public IntcodeComputer(Dictionary<int, IntcodeInstruction> instructionSet)
         {
-            _memory = Memory;
-            _instructionSet = InstructionSet;
-            _noun = Noun;
-            _verb = Verb;
+            _instructionSet = instructionSet;
         }
 
-        public List<int> Evaluate()
+        public void LoadMemory(List<int> memory)
         {
-            _memory[1] = _noun;
-            _memory[2] = _verb;
+            _memory = memory;
+        }
 
-            for (int pointer = 0; pointer < _memory.Count; )
+        public void SetState(int noun, int verb)
+        {
+            _memory[1] = noun;
+            _memory[2] = verb;
+        }
+
+        public int Evaluate()
+        {
+            for (int pointer = 0; pointer < _memory.Count;)
             {
-                var opCode = _memory[pointer];                
+                var opCode = _memory[pointer];
 
                 if (opCode == 99)
                     break;
@@ -35,7 +38,7 @@ namespace advent_of_code_2019.Intcode
                 var instruction = _instructionSet[opCode];
                 var parameters = new List<int>();
 
-                for(int i = pointer+1; i <= pointer + instruction.ParametersLength; i++)
+                for (int i = pointer + 1; i <= pointer + instruction.ParametersLength; i++)
                 {
                     var parameterLocation = _memory[i];
                     parameters.Add(_memory[parameterLocation]);
@@ -47,7 +50,7 @@ namespace advent_of_code_2019.Intcode
 
                 pointer += instruction.ParametersLength == 0 ? 1 : instruction.ParametersLength + 2;
             }
-            return _memory;
+            return _memory[0];
         }
     }
 

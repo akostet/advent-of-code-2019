@@ -39,9 +39,12 @@ namespace advent_of_code_2019
                 for(int verb = 0; verb < 100; verb++)
                 {
                     var inputCopy = input.ToList();
-                    var computer = new IntcodeComputer(inputCopy, instructionSet, noun, verb);
-                    var result = computer.Evaluate();
-                    var output = result[0];
+                    var computer = new IntcodeComputer(instructionSet);
+
+                    computer.LoadMemory(inputCopy);
+                    computer.SetState(noun, verb);
+
+                    var output = computer.Evaluate();
 
                     if (output == 19690720)
                         return (100 * noun) + verb;
