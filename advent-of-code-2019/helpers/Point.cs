@@ -1,5 +1,8 @@
-﻿namespace advent_of_code_2019.helpers
+﻿using System.Diagnostics;
+
+namespace advent_of_code_2019.helpers
 {
+    [DebuggerDisplay("X={X}, Y={Y}")]
     public class Point
     {
         public int X { get; set; }

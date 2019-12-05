@@ -33,11 +33,6 @@ namespace advent_of_code_2019
 
             var intersectingPoints = path1Points.Keys.Intersect(path2Points.Keys);
 
-            foreach (var intersectingPoint in intersectingPoints)
-            {
-                var path1NumSteps = path1Points[intersectingPoint];
-                var path2NumSteps = path2Points[intersectingPoint];
-            }
             var minSteps = intersectingPoints.Min(point => path1Points[point] + path2Points[point]);
             return minSteps;
         }
@@ -67,7 +62,7 @@ namespace advent_of_code_2019
                     current.X += length;
                     break;
                 case 'L':
-                    points = Enumerable.Range((current.X - length), length).Select(x => new Point(x, current.Y));
+                    points = Enumerable.Range((current.X - length), length).Select(x => new Point(x, current.Y)).Reverse();
                     current.X -= length;
                     break;
                 case 'U':
@@ -75,7 +70,7 @@ namespace advent_of_code_2019
                     current.Y += length;
                     break;
                 case 'D':
-                    points = Enumerable.Range((current.Y - length), length).Select(y => new Point(current.X, y));
+                    points = Enumerable.Range((current.Y - length), length).Select(y => new Point(current.X, y)).Reverse();
                     current.Y -= length;
                     break;
                 default:
@@ -96,9 +91,12 @@ namespace advent_of_code_2019
                 var (direction, length) = (step[0], int.Parse(step.Substring(1)));
                 var points = GeneratePoints(direction, current, length);
 
-                foreach(var point in points)
-                    if(!allPoints.ContainsKey(point))
-                        allPoints.Add(point, ++numSteps);
+                foreach (var point in points)
+                {
+                    numSteps++;
+                    if (!allPoints.ContainsKey(point))
+                        allPoints.Add(point, numSteps);
+                }
             }
 
             return allPoints;
