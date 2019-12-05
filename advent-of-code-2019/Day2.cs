@@ -29,12 +29,12 @@ namespace advent_of_code_2019
         {
             var instructionSet = new Dictionary<int, IntCodeInstruction>()
             {
-                { 1, new IntCodeInstruction(){ OpCode =  1, ParametersLength = 2, Function = parameters => parameters.Sum() } },
-                { 2, new IntCodeInstruction(){ OpCode =  2, ParametersLength = 2, Function = parameters => parameters.Aggregate( (result, item) => result * item ) } },
-                { 99, new IntCodeInstruction(){ OpCode =  99, ParametersLength = 0 } }
+                { 1, new IntCodeInstruction(){ OpCode = 1, InstructionType = IntCodeInstruction.IntCodeInstructionType.FunctionWithOutput, ParametersLength = 2, Function = parameters => parameters.Sum() } },
+                { 2, new IntCodeInstruction(){ OpCode = 2, InstructionType = IntCodeInstruction.IntCodeInstructionType.FunctionWithOutput, ParametersLength = 2, Function = parameters => parameters.Aggregate( (result, item) => result * item ) } },
+                { 99, new IntCodeInstruction(){ OpCode = 99, InstructionType = IntCodeInstruction.IntCodeInstructionType.FunctionWithoutOutput, ParametersLength = 0 } }
             };
 
-            for(int noun = 0; noun < 100; noun++)
+            for (int noun = 0; noun < 100; noun++)
             {
                 for(int verb = 0; verb < 100; verb++)
                 {

@@ -39,7 +39,6 @@ namespace advent_of_code_2019.Intcode
                 var parameters = new List<int>();
                 var parameterModes = GetParameterModes(unparsedOpCode, instruction.ParametersLength);
 
-                //for (var i = pointer + 1; i <= pointer + instruction.ParametersLength; i++)
                 for (var i = 0; i < instruction.ParametersLength; i++)
                 {
                     var parameter = ResolveParameter(_memory[pointer + i + 1], parameterModes[i]);
@@ -47,14 +46,11 @@ namespace advent_of_code_2019.Intcode
                 }
                 var outputAddress = _memory[pointer + instruction.ParametersLength + 1];
 
-                var output = instruction.Execute(parameters.ToArray());
+                instruction.Execute(_memory, parameters.ToArray(), outputAddress);
 
-                if(output.HasValue)
-                    _memory[outputAddress] = output.Value;
-
-                pointer += instruction.HasOutput ? 
-                    instruction.ParametersLength + 2 : //Parameter length + 1 for instruction + 1 for output
-                    instruction.ParametersLength + 1; //Parameter length + 1 for instruction
+                pointer += instruction.InstructionType == IntCodeInstruction.IntCodeInstructionType.FunctionWithoutOutput ?
+                    instruction.ParametersLength + 1 : //Parameter length + 1 for instruction
+                    instruction.ParametersLength + 2; //Parameter length + 1 for instruction + 1 for output
             }
             return _memory[0];
         }
@@ -69,7 +65,7 @@ namespace advent_of_code_2019.Intcode
         {
             var result = new List<int>();
             unparsedOpCode /= 100; //Remove the instruction part
-            for (int i = 0; i < parametersLength; i++)
+            for (var i = 0; i < parametersLength; i++)
             {
                 var mode = unparsedOpCode % 10;
                 result.Add(mode);
@@ -79,7 +75,7 @@ namespace advent_of_code_2019.Intcode
             return result.ToArray();
         }
 
-        public int ResolveParameter(int val,  int parameterMode)
+        public int ResolveParameter(int val, int parameterMode)
         {
             return parameterMode == 1
                 ? val
@@ -91,19 +87,30 @@ namespace advent_of_code_2019.Intcode
     {
         public int OpCode { get; set; }
         public Func<int[], int> Function { get; set; }
-        public Action<int[]> Action { get; set; }
-        public bool HasOutput => Function != null;
-
+        public IntCodeInstructionType InstructionType { get; set; }
         public int ParametersLength { get; set; }
 
-        public int? Execute(int[] parameters)
+        public void Execute(List<int> memory, int[] parameters, int outputAddress)
         {
-            if (Function != null)
-                return Function(parameters);
+            if (InstructionType == IntCodeInstructionType.FunctionWithoutOutput)
+            {
+                Function.Invoke(parameters);
+                return;
+            }
 
-            Action?.Invoke(parameters);
+            if (InstructionType == IntCodeInstructionType.FunctionWithOutput)
+            {
+                var output = Function(parameters);
+                memory[outputAddress] = output;
+            }
 
-            return null;
+        }
+
+        public enum IntCodeInstructionType
+        {
+            FunctionWithOutput,
+            FunctionWithoutOutput,
+            ConditionalInstruction
         }
     }
 }
