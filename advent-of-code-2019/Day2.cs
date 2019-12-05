@@ -27,11 +27,25 @@ namespace advent_of_code_2019
 
         public static int Problem2(List<int> input)
         {
-            var instructionSet = new Dictionary<int, IntCodeInstruction>()
+            var instructionSet = new List<IntCodeInstruction>()
             {
-                { 1, new IntCodeInstruction(){ OpCode = 1, InstructionType = IntCodeInstruction.IntCodeInstructionType.FunctionWithOutput, ParametersLength = 2, Function = parameters => parameters.Sum() } },
-                { 2, new IntCodeInstruction(){ OpCode = 2, InstructionType = IntCodeInstruction.IntCodeInstructionType.FunctionWithOutput, ParametersLength = 2, Function = parameters => parameters.Aggregate( (result, item) => result * item ) } },
-                { 99, new IntCodeInstruction(){ OpCode = 99, InstructionType = IntCodeInstruction.IntCodeInstructionType.FunctionWithoutOutput, ParametersLength = 0 } }
+                new IntCodeInstruction()
+                {
+                    OpCode = 1, 
+                    ParametersLength = 2, 
+                    Function = (parameters,_) => parameters.Sum()
+                },
+                new IntCodeInstruction()
+                { 
+                    OpCode = 2, 
+                    ParametersLength = 2, 
+                    Function = (parameters,_) => parameters.Aggregate( (result, item) => result * item )
+                },
+                new IntCodeInstruction()
+                {
+                    OpCode = 99, 
+                    ParametersLength = 0
+                } 
             };
 
             for (int noun = 0; noun < 100; noun++)
