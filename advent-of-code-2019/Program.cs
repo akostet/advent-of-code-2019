@@ -25,6 +25,10 @@ namespace advent_of_code_2019
             Console.WriteLine($"Day 4, problem 1: {Day4.Problem1(day4Input.First(), day4Input.Last())}");
             Console.WriteLine($"Day 4, problem 2: {Day4.Problem2(day4Input.First(), day4Input.Last())}");
 
+            var day5Input = InputReader.ReadInput(day: 5, delimiter: ",").Select(x => int.Parse(x)).ToList();
+            Day5.Problem1(day5Input);
+            Console.WriteLine($"Day 5, problem 1: See output above ^");
+
             Console.ReadLine();
         }
     }

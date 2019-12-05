@@ -27,11 +27,11 @@ namespace advent_of_code_2019
 
         public static int Problem2(List<int> input)
         {
-            var instructionSet = new Dictionary<int, IntcodeInstruction>()
+            var instructionSet = new Dictionary<int, IntCodeInstruction>()
             {
-                { 1, new IntcodeInstruction(){ ParametersLength = 2, Operation = parameters => parameters.Sum() } },
-                { 2, new IntcodeInstruction(){ ParametersLength = 2, Operation = parameters => parameters.Aggregate( (result, item) => result * item ) } },
-                { 99, new IntcodeInstruction(){ ParametersLength = 0 } }
+                { 1, new IntCodeInstruction(){ OpCode =  1, ParametersLength = 2, Function = parameters => parameters.Sum() } },
+                { 2, new IntCodeInstruction(){ OpCode =  2, ParametersLength = 2, Function = parameters => parameters.Aggregate( (result, item) => result * item ) } },
+                { 99, new IntCodeInstruction(){ OpCode =  99, ParametersLength = 0 } }
             };
 
             for(int noun = 0; noun < 100; noun++)
@@ -39,7 +39,7 @@ namespace advent_of_code_2019
                 for(int verb = 0; verb < 100; verb++)
                 {
                     var inputCopy = input.ToList();
-                    var computer = new IntcodeComputer(instructionSet);
+                    var computer = new IntCodeComputer(instructionSet);
 
                     computer.LoadMemory(inputCopy);
                     computer.SetState(noun, verb);
@@ -50,7 +50,6 @@ namespace advent_of_code_2019
                         return (100 * noun) + verb;
                 }
             }
-
            
             return -1;
         }
