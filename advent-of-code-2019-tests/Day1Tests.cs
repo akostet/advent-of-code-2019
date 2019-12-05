@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace advent_of_code_2019_tests
 {
-    public class Tests
+    public class Day1Tests
     {
         [SetUp]
         public void Setup()

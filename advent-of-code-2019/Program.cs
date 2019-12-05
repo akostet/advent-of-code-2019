@@ -21,6 +21,10 @@ namespace advent_of_code_2019
             Console.WriteLine($"Day 3, problem 1: {Day3.Problem1(day3Input)}");
             Console.WriteLine($"Day 3, problem 2: {Day3.Problem2(day3Input)}");
 
+            var day4Input = "248345-746315".Split("-").Select(x => int.Parse(x));
+            Console.WriteLine($"Day 4, problem 1: {Day4.Problem1(day4Input.First(), day4Input.Last())}");
+            Console.WriteLine($"Day 4, problem 2: {Day4.Problem2(day4Input.First(), day4Input.Last())}");
+
             Console.ReadLine();
         }
     }
