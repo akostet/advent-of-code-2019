@@ -8,10 +8,10 @@ namespace advent_of_code_2019
 {
     public class Day3
     {
-        public static int Problem1(List<string> input)
+        public static int Problem1(IEnumerable<string> input)
         {
-            var path1Steps = input[0].Split(",");
-            var path2Steps = input[1].Split(",");
+            var path1Steps = input.First().Split(",");
+            var path2Steps = input.Last().Split(",");
 
             var path1Points = EvaluatePoints(path1Steps);
             var path2Points = EvaluatePoints(path2Steps);
@@ -23,10 +23,10 @@ namespace advent_of_code_2019
             return closestIntersection;
         }
 
-        public static int Problem2(List<string> input)
+        public static int Problem2(IEnumerable<string> input)
         {
-            var path1Steps = input[0].Split(",");
-            var path2Steps = input[1].Split(",");
+            var path1Steps = input.First().Split(",");
+            var path2Steps = input.Last().Split(",");
 
             var path1Points = EvaluatePointsWithSteps(path1Steps);
             var path2Points = EvaluatePointsWithSteps(path2Steps);

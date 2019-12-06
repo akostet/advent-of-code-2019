@@ -7,10 +7,12 @@ namespace advent_of_code_2019
 {
     public static class Day4
     {
-        public static int Problem1(int low, int high)
+        public static int Problem1(string input)
         {
+            var range = input.Split("-").Select(x => int.Parse(x));
             var count = 0;
-            for (var currentPassword = low; currentPassword <= high; currentPassword++)
+
+            for (var currentPassword = range.First(); currentPassword <= range.Last(); currentPassword++)
             {
                 if (MeetsCriteria(currentPassword))
                     count++;
@@ -19,10 +21,11 @@ namespace advent_of_code_2019
             return count;
         }
 
-        public static int Problem2(int low, int high)
+        public static int Problem2(string input)
         {
+            var range = input.Split("-").Select(x => int.Parse(x));
             var count = 0;
-            for (var currentPassword = low; currentPassword <= high; currentPassword++)
+            for (var currentPassword = range.First(); currentPassword <= range.Last(); currentPassword++)
             {
                 if (MeetsCriteria(currentPassword) && HasTwoAdjacentSameDigitsExactlyTwice(currentPassword.ToString()))
                     count++;

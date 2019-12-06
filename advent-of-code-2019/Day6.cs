@@ -7,7 +7,7 @@ namespace advent_of_code_2019
 {
     public static class Day6
     {
-        public static int Problem1(List<string> input)
+        public static int Problem1(IEnumerable<string> input)
         {
             Graph<string> graph = new Graph<string>();
 
@@ -18,20 +18,21 @@ namespace advent_of_code_2019
             }
 
             var rootNode = graph.FindByValue("COM");
+            int sum = 0;
 
-            var sum = CountOrbits(rootNode, 0, 0);
+            CountOrbits(rootNode, 0, ref sum);
 
             return sum;
         }
 
-        public static int CountOrbits(Node<string> node, int depth, int sum)
+        public static void CountOrbits(Node<string> node, int depth, ref int sum)
         {
             foreach (var childLink in node.IncomingLinks)
             {
-                sum = CountOrbits(childLink.ToNode, depth + 1, sum);
+                CountOrbits(childLink.ToNode, depth + 1, ref sum);
             }
 
-            return sum + depth;
+            sum += depth;
         }
     }
 }

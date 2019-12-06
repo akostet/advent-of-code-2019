@@ -10,22 +10,22 @@ namespace advent_of_code_2019
     public static class Day2
     {
 
-        public static int Problem1(List<int> input)
+        public static int Problem1(IEnumerable<int> input)
         {
             /*
              * Once you have a working computer, the first step is to restore the gravity assist program (your puzzle input) to the "1202 program alarm" state it had just before the last computer caught fire.
              * To do this, before running the program, replace position 1 with the value 12 and replace position 2 with the value 2. What value is left at position 0 after the program halts?
              */
+            var memory = input.ToList();
+            memory[1] = 12;
+            memory[2] = 2;
 
-            input[1] = 12;
-            input[2] = 2;
+            input = ProcessOpCodes(memory);
 
-            input = ProcessOpCodes(input);
-
-            return input[0];
+            return memory[0];
         }
 
-        public static int Problem2(List<int> input)
+        public static int Problem2(IEnumerable<int> input)
         {
             var instructionSet = new List<IntCodeInstruction>()
             {

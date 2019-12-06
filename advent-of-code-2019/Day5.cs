@@ -8,22 +8,25 @@ namespace advent_of_code_2019
 {
     public static class Day5
     {
-        public static int Problem1(List<int> input)
+        static List<int> Problem1Output = new List<int>();
+        static List<int> Problem2Output = new List<int>();
+
+        public static int Problem1(IEnumerable<int> input)
         {
             var computer = GetComputerProblem1();
-            computer.LoadMemory(input);
+            computer.LoadMemory(input.ToList());
             var result = computer.Evaluate();
 
-            return result;
+            return Problem1Output.Last();
         }
 
-        public static int Problem2(List<int> input)
+        public static int Problem2(IEnumerable<int> input)
         {
             var computer = GetComputerProblem2();
-            computer.LoadMemory(input);
+            computer.LoadMemory(input.ToList());
             var result = computer.Evaluate();
 
-            return result;
+            return Problem2Output.Last();
         }
 
         private static List<IntCodeInstruction> BaseInstructionSet()
@@ -49,9 +52,11 @@ namespace advent_of_code_2019
                     ParametersLength = 0,
                     Function = (parameters, _) =>
                     {
-                        Console.WriteLine("Input:");
-                        var input = Console.ReadLine();
-                        return int.Parse(input);
+                        //Uncomment to get input from console
+                        //Console.WriteLine("Input:");
+                        //var input = Console.ReadLine();
+                        //return int.Parse(input);
+                        return 1;
                     }
                 },
                 new IntCodeInstruction()
@@ -60,7 +65,9 @@ namespace advent_of_code_2019
                     ParametersLength = 1,
                     Sub = (parameters, _) =>
                     {
-                        Console.WriteLine(parameters[0]);
+                        //Uncomment to get output to console
+                        //Console.WriteLine(parameters[0]);
+                        Problem1Output.Add(parameters[0]);
                     }
                 },
                 new IntCodeInstruction()
@@ -81,6 +88,23 @@ namespace advent_of_code_2019
         public static IntCodeComputer GetComputerProblem2()
         {
             var instructionSet = BaseInstructionSet();
+
+            instructionSet.First(instruction => instruction.OpCode == 3).Function = (parameters, _) =>
+            {
+                //Uncomment to get input from console
+                //Console.WriteLine("Input:");
+                //var input = Console.ReadLine();
+                //return int.Parse(input);
+                return 5;
+            };
+
+            instructionSet.First(instruction => instruction.OpCode == 4).Sub = (parameters, _) =>
+            {
+                //Uncomment to get output to console
+                //Console.WriteLine(parameters[0]);
+                Problem2Output.Add(parameters[0]);
+            };
+
             var extendedInstructionSet = new List<IntCodeInstruction>()
             {
                 //jump-if-true
