@@ -63,14 +63,14 @@ namespace advent_of_code_2019
             if (problem1 == null)
                 Console.WriteLine("Problem 1 not yet implemented");
             else
-                PrintOutput($"Day {day}, problem 1", problem1.Invoke(null, new object[] { input }), problemTimer.ElapsedMilliseconds);
+                PrintOutput($"Day {day}, problem 1", problem1.Invoke(null, new object[] { input }), problemTimer);
 
             problemTimer.Restart();
 
             if (problem2 == null)
                 Console.WriteLine("Problem 2 not yet implemented");
             else
-                PrintOutput($"Day {day}, problem 2", problem2.Invoke(null, new object[] { input }), problemTimer.ElapsedMilliseconds);       
+                PrintOutput($"Day {day}, problem 2", problem2.Invoke(null, new object[] { input }), problemTimer);       
         }
 
         static void RunAll()
@@ -81,37 +81,37 @@ namespace advent_of_code_2019
 
             PrintHeader();
 
-            PrintOutput("Day 1, problem 1", Day1.Problem1(day1Input), problemTimer.ElapsedMilliseconds);
+            PrintOutput("Day 1, problem 1", Day1.Problem1(day1Input), problemTimer);
             problemTimer.Restart();
-            PrintOutput("Day 1, problem 2", Day1.Problem2(day1Input), problemTimer.ElapsedMilliseconds);
-            problemTimer.Restart();
-
-            PrintOutput("Day 2, problem 1", Day2.Problem1(day2Input), problemTimer.ElapsedMilliseconds);
-            problemTimer.Restart();
-            PrintOutput("Day 2, problem 2", Day2.Problem2(day2Input), problemTimer.ElapsedMilliseconds);
+            PrintOutput("Day 1, problem 2", Day1.Problem2(day1Input), problemTimer);
             problemTimer.Restart();
 
-            PrintOutput("Day 3, problem 1", Day3.Problem1(day3Input), problemTimer.ElapsedMilliseconds);
+            PrintOutput("Day 2, problem 1", Day2.Problem1(day2Input), problemTimer);
             problemTimer.Restart();
-            PrintOutput("Day 3, problem 2", Day3.Problem2(day3Input), problemTimer.ElapsedMilliseconds);
-            problemTimer.Restart();
-
-            PrintOutput("Day 4, problem 1", Day4.Problem1(day4Input), problemTimer.ElapsedMilliseconds);
-            problemTimer.Restart();
-            PrintOutput("Day 4, problem 2", Day4.Problem2(day4Input), problemTimer.ElapsedMilliseconds);
+            PrintOutput("Day 2, problem 2", Day2.Problem2(day2Input), problemTimer);
             problemTimer.Restart();
 
-            PrintOutput("Day 5, problem 1", Day5.Problem1(day5Input), problemTimer.ElapsedMilliseconds);
+            PrintOutput("Day 3, problem 1", Day3.Problem1(day3Input), problemTimer);
             problemTimer.Restart();
-            PrintOutput("Day 5, problem 2", Day5.Problem2(day5Input), problemTimer.ElapsedMilliseconds);
-            problemTimer.Restart();
-
-            PrintOutput("Day 6, problem 1", Day6.Problem1(day6Input), problemTimer.ElapsedMilliseconds);
-            problemTimer.Restart();
-            PrintOutput("Day 6, problem 2", Day6.Problem2(day6Input), problemTimer.ElapsedMilliseconds);
+            PrintOutput("Day 3, problem 2", Day3.Problem2(day3Input), problemTimer);
             problemTimer.Restart();
 
-            PrintOutput("Day 7, problem 1", Day7.Problem1(day7Input), problemTimer.ElapsedMilliseconds);
+            PrintOutput("Day 4, problem 1", Day4.Problem1(day4Input), problemTimer);
+            problemTimer.Restart();
+            PrintOutput("Day 4, problem 2", Day4.Problem2(day4Input), problemTimer);
+            problemTimer.Restart();
+
+            PrintOutput("Day 5, problem 1", Day5.Problem1(day5Input), problemTimer);
+            problemTimer.Restart();
+            PrintOutput("Day 5, problem 2", Day5.Problem2(day5Input), problemTimer);
+            problemTimer.Restart();
+
+            PrintOutput("Day 6, problem 1", Day6.Problem1(day6Input), problemTimer);
+            problemTimer.Restart();
+            PrintOutput("Day 6, problem 2", Day6.Problem2(day6Input), problemTimer);
+            problemTimer.Restart();
+
+            PrintOutput("Day 7, problem 1", Day7.Problem1(day7Input), problemTimer);
             problemTimer.Restart(); 
             //PrintOutput("Day 7, problem 2", Day7.Problem2(day7Input), problemTimer.ElapsedMilliseconds);
             //problemTimer.Restart();
@@ -129,8 +129,10 @@ namespace advent_of_code_2019
                 "Elapsed");
         }
 
-        private static void PrintOutput(string day, object output, long elapsedTime)
+        private static void PrintOutput(string day, object output, Stopwatch sw)
         {
+            var elapsedTicks = sw.ElapsedTicks;
+            var elapsedTime = ((double)elapsedTicks / (double)TimeSpan.TicksPerMillisecond);
             Console.WriteLine("{0,17} {1,10} {2,10}",
                day,
                output,
