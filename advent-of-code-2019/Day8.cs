@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Drawing;
+
 
 namespace advent_of_code_2019
 {
@@ -38,6 +40,42 @@ namespace advent_of_code_2019
             }              
                 
             return layers[layerWithFewestZeroDigits].Count(character => character == '1') * layers[layerWithFewestZeroDigits].Count(character => character == '2');
+        }
+
+        public static string Problem2(string input)
+        {
+            var layerPixelCount = ImageHeight * ImageWidth;
+            List<string> layers = new List<string>();
+
+            var resultingImage = new char[ImageHeight, ImageWidth];
+                
+            var layerCount = 0;
+
+            //Read the data into layers
+            while ((double)layerCount < (double)input.Length / (double)layerPixelCount)
+            {
+                var layerChars = input.Skip(layerPixelCount * layerCount).Take(layerPixelCount).ToArray();
+                var layer = new string(layerChars);
+                layers.Add(layer);
+
+                for(var x = 0; x < ImageWidth; x++)
+                {
+                    if (layerChars[x] != '2')
+                        resultingImage[layerCount % ImageHeight, x] = layerChars[x];
+                }
+
+                layerCount++;
+            }
+            for (var y = 0; y < ImageHeight; y++)
+            {
+                for (var x = 0; x < ImageWidth; x++)
+                {
+                    var c = resultingImage[y, x] == '0' ? '|' : ' ';
+                    Console.Write(c);
+                }
+                Console.WriteLine();
+            }
+            return "";
         }
     }
 }
