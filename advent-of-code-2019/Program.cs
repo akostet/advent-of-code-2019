@@ -16,6 +16,7 @@ namespace advent_of_code_2019
         public static string day4Input;
         public static IEnumerable<int> day5Input;
         public static IEnumerable<string> day6Input;
+        public static IEnumerable<int> day7Input;
         static void Main()
         {
             GetInputs();
@@ -60,14 +61,14 @@ namespace advent_of_code_2019
             PrintHeader();
 
             if (problem1 == null)
-                Console.Write("Problem 1 not yet implemented");
+                Console.WriteLine("Problem 1 not yet implemented");
             else
                 PrintOutput($"Day {day}, problem 1", problem1.Invoke(null, new object[] { input }), problemTimer.ElapsedMilliseconds);
 
             problemTimer.Restart();
 
             if (problem2 == null)
-                Console.Write("Problem 2 not yet implemented");
+                Console.WriteLine("Problem 2 not yet implemented");
             else
                 PrintOutput($"Day {day}, problem 2", problem2.Invoke(null, new object[] { input }), problemTimer.ElapsedMilliseconds);       
         }
@@ -110,6 +111,11 @@ namespace advent_of_code_2019
             PrintOutput("Day 6, problem 2", Day6.Problem2(day6Input), problemTimer.ElapsedMilliseconds);
             problemTimer.Restart();
 
+            PrintOutput("Day 7, problem 1", Day7.Problem1(day7Input), problemTimer.ElapsedMilliseconds);
+            problemTimer.Restart(); 
+            //PrintOutput("Day 7, problem 2", Day7.Problem2(day7Input), problemTimer.ElapsedMilliseconds);
+            //problemTimer.Restart();
+
 
             timerAll.Stop();
             Console.WriteLine($"Total elapsed time: {timerAll.ElapsedMilliseconds}ms");
@@ -139,6 +145,7 @@ namespace advent_of_code_2019
             day4Input = InputReader.ReadInput(day: 4).First();
             day5Input = InputReader.ReadInput(day: 5, delimiter: ",").Select(x => int.Parse(x)).ToList();
             day6Input = InputReader.ReadInput(day: 6).ToList();
+            day7Input = InputReader.ReadInput(day: 7, delimiter: ",").Select(x => int.Parse(x)).ToList();
         }
     }
 }
