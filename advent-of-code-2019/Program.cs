@@ -17,6 +17,7 @@ namespace advent_of_code_2019
         public static IEnumerable<int> day5Input;
         public static IEnumerable<string> day6Input;
         public static IEnumerable<int> day7Input;
+        public static string day8Input;
         static void Main()
         {
             GetInputs();
@@ -141,13 +142,14 @@ namespace advent_of_code_2019
 
         static void GetInputs()
         {
-            day1Input = InputReader.ReadInput(day: 1).Select(x => int.Parse(x));
+            day1Input = InputReader.ReadMultilineInput(day: 1).Select(x => int.Parse(x));
             day2Input = InputReader.ReadInput(day: 2, delimiter: ",").Select(x => int.Parse(x)).ToList();
-            day3Input = InputReader.ReadInput(day: 3).ToList();
-            day4Input = InputReader.ReadInput(day: 4).First();
+            day3Input = InputReader.ReadMultilineInput(day: 3).ToList();
+            day4Input = InputReader.ReadMultilineInput(day: 4).First();
             day5Input = InputReader.ReadInput(day: 5, delimiter: ",").Select(x => int.Parse(x)).ToList();
-            day6Input = InputReader.ReadInput(day: 6).ToList();
+            day6Input = InputReader.ReadMultilineInput(day: 6).ToList();
             day7Input = InputReader.ReadInput(day: 7, delimiter: ",").Select(x => int.Parse(x)).ToList();
+            day8Input = InputReader.ReadSingleLineInput(day: 8);
         }
     }
 }
