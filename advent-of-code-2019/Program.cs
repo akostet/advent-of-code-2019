@@ -107,8 +107,8 @@ namespace advent_of_code_2019
 
             PrintOutput("Day 6, problem 1", Day6.Problem1(day6Input), problemTimer.ElapsedMilliseconds);
             problemTimer.Restart();
-            //PrintOutput("Day 6, problem 2", Day6.Problem2(day6Input), problemTimer.ElapsedMilliseconds);
-            //problemTimer.Restart();
+            PrintOutput("Day 6, problem 2", Day6.Problem2(day6Input), problemTimer.ElapsedMilliseconds);
+            problemTimer.Restart();
 
 
             timerAll.Stop();
