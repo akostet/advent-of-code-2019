@@ -26,17 +26,24 @@ namespace advent_of_code_2019.Intcode
             _executionContext.Memory[2] = verb;
         }
 
-        public int Evaluate()
+        public int ReadMemory(int address)
+        {
+            return _executionContext.Memory[address];
+        }
+
+        public ExecutionState Evaluate()
         {
             int steps;
             do
             {
+                _executionContext.Interrupted = false;
+
                 var unparsedOpCode = _executionContext.CurrentInstruction();
 
                 var instruction = InterpretInstruction(unparsedOpCode);
 
                 if (instruction.OpCode == 99)
-                    break;
+                    return ExecutionState.Finished;
 
                 var parameters = new List<int>();
                 var parameterModes = GetParameterModes(unparsedOpCode, instruction.ParametersLength);
@@ -58,10 +65,10 @@ namespace advent_of_code_2019.Intcode
                     instruction.HasReturnValue
                     ? instruction.ParametersLength + 2 : //Parameter length + 1 for instruction + 1 for output
                     instruction.ParametersLength + 1; //Parameter length + 1 for instruction
-            } while (_executionContext.StepProgramCounter(steps));
+            } while (_executionContext.StepProgramCounter(steps) && !_executionContext.Interrupted);
 
     
-            return _executionContext.Memory[0];
+            return _executionContext.IsFinished() ? ExecutionState.Finished : ExecutionState.Interrupted;
         }
 
         public IntCodeInstruction InterpretInstruction(int unparsedOpCode)
@@ -92,6 +99,12 @@ namespace advent_of_code_2019.Intcode
         }
     }
 
+    public enum ExecutionState
+    {
+        Interrupted,
+        Finished
+    }
+
     public class IntCodeInstruction
     {
         public int OpCode { get; set; }
@@ -120,6 +133,7 @@ namespace advent_of_code_2019.Intcode
     {
         public int ProgramCounter { get; set; }
         public List<int> Memory { get; set; }
+        public bool Interrupted { get; set; }
 
         public ExecutionContext(List<int> memory)
         {
@@ -131,6 +145,11 @@ namespace advent_of_code_2019.Intcode
         {
             ProgramCounter += steps;
             return ProgramCounter < Memory.Count;
+        }
+
+        public bool IsFinished()
+        {
+            return ProgramCounter >= Memory.Count;
         }
 
         public int CurrentInstruction()

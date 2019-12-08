@@ -58,7 +58,9 @@ namespace advent_of_code_2019
                     computer.LoadMemory(inputCopy);
                     computer.SetState(noun, verb);
 
-                    var output = computer.Evaluate();
+                    computer.Evaluate();
+
+                    var output = computer.ReadMemory(0);
 
                     if (output == 19690720)
                         return (100 * noun) + verb;

@@ -21,7 +21,7 @@ namespace advent_of_code_2019
 
             var bestResult = int.MinValue;
 
-            foreach(var combination in possibleCombinations)
+            foreach (var combination in possibleCombinations)
             {
                 ProgramOutput = new Queue<int>();
                 ProgramInput = new Queue<int>();
@@ -39,7 +39,55 @@ namespace advent_of_code_2019
                 bestResult = Math.Max(ProgramOutput.Dequeue(), bestResult);
             }
 
-           
+
+
+            return bestResult;
+        }
+
+        public static int Problem2(IEnumerable<int> input)
+        {
+            var possibleCombinations = Permutations.GetPermutations("56789");
+            var instructionSet = GetInstructionSet();
+
+            //Change the output to interrupt the current program
+            instructionSet.First(instruction => instruction.OpCode == 4).Sub = (parameters, executionContext) =>
+            {
+                executionContext.Interrupted = true;
+                ProgramOutput.Enqueue(parameters[0]);
+            };
+            
+            var bestResult = int.MinValue;
+
+            foreach (var combination in possibleCombinations)
+            {
+                ProgramOutput = new Queue<int>();
+                ProgramInput = new Queue<int>();
+                ProgramOutput.Enqueue(0);
+
+                var amplifiers = new IntCodeComputer[5];
+
+                for(var i = 0; i < 5; i++)
+                {
+                    amplifiers[i] = new IntCodeComputer(instructionSet);
+                    amplifiers[i].LoadMemory(input.ToList());
+                }
+
+                var executionResult = ExecutionState.Interrupted;
+
+                for(var turn = 0; executionResult != ExecutionState.Finished; turn++)
+                {
+                    ProgramInput.Enqueue(int.Parse(combination[turn % 5].ToString()));
+                    var output = ProgramOutput.Dequeue();
+                    ProgramInput.Enqueue(output);
+
+                    executionResult = amplifiers[turn % 5].Evaluate();
+                  
+                }
+
+                bestResult = Math.Max(ProgramOutput.Dequeue(), bestResult);
+            }
+
+
 
             return bestResult;
         }

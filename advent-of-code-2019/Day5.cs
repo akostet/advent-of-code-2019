@@ -15,7 +15,7 @@ namespace advent_of_code_2019
         {
             var computer = GetComputerProblem1();
             computer.LoadMemory(input.ToList());
-            var result = computer.Evaluate();
+            computer.Evaluate();
 
             return Problem1Output.Last();
         }
@@ -24,7 +24,7 @@ namespace advent_of_code_2019
         {
             var computer = GetComputerProblem2();
             computer.LoadMemory(input.ToList());
-            var result = computer.Evaluate();
+            computer.Evaluate();
 
             return Problem2Output.Last();
         }
