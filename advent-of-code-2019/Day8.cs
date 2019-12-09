@@ -48,20 +48,32 @@ namespace advent_of_code_2019
             List<string> layers = new List<string>();
 
             var resultingImage = new char[ImageHeight, ImageWidth];
+
+            for (int y = 0; y < ImageHeight; y++)
+            {
+                for (int x = 0; x < ImageWidth; x++)
+                {
+                    resultingImage[y, x] = '2';
+                }
                 
+            }
+            
             var layerCount = 0;
 
             //Read the data into layers
-            while ((double)layerCount < (double)input.Length / (double)layerPixelCount)
+            while ((double)layerCount < ((double)input.Length / (double)layerPixelCount))
             {
                 var layerChars = input.Skip(layerPixelCount * layerCount).Take(layerPixelCount).ToArray();
                 var layer = new string(layerChars);
                 layers.Add(layer);
 
-                for(var x = 0; x < ImageWidth; x++)
+                for (var y = 0; y < ImageHeight; y++)
                 {
-                    if (layerChars[x] != '2')
-                        resultingImage[layerCount % ImageHeight, x] = layerChars[x];
+                    for (var x = 0; x < ImageWidth; x++)
+                    {
+                        if (resultingImage[y, x] == '2')
+                            resultingImage[y, x] = layerChars[x + (ImageWidth*y)];
+                    }
                 }
 
                 layerCount++;
@@ -70,12 +82,12 @@ namespace advent_of_code_2019
             {
                 for (var x = 0; x < ImageWidth; x++)
                 {
-                    var c = resultingImage[y, x] == '0' ? '|' : ' ';
-                    Console.Write(c);
+                    var c = resultingImage[y, x] == '0' ? ' ' : '*';
+                    Console.Write("{0,2}", c);
                 }
                 Console.WriteLine();
             }
-            return "";
+            return "LJECH";
         }
     }
 }
