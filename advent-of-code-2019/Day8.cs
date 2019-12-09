@@ -83,9 +83,9 @@ namespace advent_of_code_2019
                 for (var x = 0; x < ImageWidth; x++)
                 {
                     var c = resultingImage[y, x] == '0' ? ' ' : '*';
-                    Console.Write("{0,2}", c);
+                    //Console.Write("{0,2}", c);
                 }
-                Console.WriteLine();
+                //Console.WriteLine();
             }
             return "LJECH";
         }

@@ -62,7 +62,6 @@ namespace advent_of_code_2019
             {
                 ProgramOutput = new Queue<int>();
                 ProgramInput = new Queue<int>();
-                ProgramOutput.Enqueue(0);
 
                 var amplifiers = new IntCodeComputer[5];
 
@@ -76,15 +75,19 @@ namespace advent_of_code_2019
 
                 for(var turn = 0; executionResult != ExecutionState.Finished; turn++)
                 {
-                    ProgramInput.Enqueue(int.Parse(combination[turn % 5].ToString()));
+                    if(turn < 5)
+                        ProgramInput.Enqueue(int.Parse(combination[turn % 5].ToString()));
+                    
+                    if (turn == 0)
+                        ProgramOutput.Enqueue(0);
+
                     var output = ProgramOutput.Dequeue();
                     ProgramInput.Enqueue(output);
 
                     executionResult = amplifiers[turn % 5].Evaluate();
-                  
                 }
 
-                bestResult = Math.Max(ProgramOutput.Dequeue(), bestResult);
+                bestResult = Math.Max(ProgramInput.Dequeue(), bestResult);
             }
 
 
