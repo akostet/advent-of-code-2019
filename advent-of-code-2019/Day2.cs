@@ -10,7 +10,7 @@ namespace advent_of_code_2019
     public static class Day2
     {
 
-        public static int Problem1(IEnumerable<int> input)
+        public static long Problem1(IEnumerable<long> input)
         {
             /*
              * Once you have a working computer, the first step is to restore the gravity assist program (your puzzle input) to the "1202 program alarm" state it had just before the last computer caught fire.
@@ -25,7 +25,7 @@ namespace advent_of_code_2019
             return memory[0];
         }
 
-        public static int Problem2(IEnumerable<int> input)
+        public static int Problem2(IEnumerable<long> input)
         {
             var instructionSet = new List<IntCodeInstruction>()
             {
@@ -70,7 +70,7 @@ namespace advent_of_code_2019
             return -1;
         }
 
-        public static List<int> ProcessOpCodes(List<int> input)
+        public static List<long> ProcessOpCodes(List<long> input)
         {
             for (int i = 0; i < input.Count; i += 4)
             {
@@ -79,9 +79,9 @@ namespace advent_of_code_2019
                 if (opCode == 99)
                     break;
 
-                var n1Address = input[i + 1];
-                var n2Address = input[i + 2];
-                var oAddress = input[i + 3];
+                var n1Address = (int)input[i + 1];
+                var n2Address = (int)input[i + 2];
+                var oAddress = (int)input[i + 3];
                 var n1 = input[n1Address];
                 var n2 = input[n2Address];
 

@@ -15,20 +15,20 @@ namespace advent_of_code_2019.Intcode
             _instructionSet = instructionSet;
         }
 
-        public void LoadMemory(List<int> memory)
+        public void LoadMemory(List<long> memory)
         {
             _executionContext = new ExecutionContext(memory);
         }
 
         public void SetState(int noun, int verb)
         {
-            _executionContext.Memory[1] = noun;
-            _executionContext.Memory[2] = verb;
+            _executionContext.SetMemory(1, noun);
+            _executionContext.SetMemory(2, verb);
         }
 
-        public int ReadMemory(int address)
+        public long ReadMemory(int address)
         {
-            return _executionContext.Memory[address];
+            return _executionContext.ReadMemory(address);
         }
 
         public ExecutionState Evaluate()
@@ -45,16 +45,16 @@ namespace advent_of_code_2019.Intcode
                 if (instruction.OpCode == 99)
                     return ExecutionState.Finished;
 
-                var parameters = new List<int>();
+                var parameters = new List<long>();
                 var parameterModes = GetParameterModes(unparsedOpCode, instruction.ParametersLength);
 
                 for (var i = 0; i < instruction.ParametersLength; i++)
                 {
                     //var parameter = ResolveParameter(_memory[pointer + i + 1], parameterModes[i]);
-                    var parameter = ResolveParameter(_executionContext.Memory[_executionContext.ProgramCounter + i + 1], parameterModes[i]);
+                    var parameter = ResolveParameter(_executionContext.ReadMemory(_executionContext.ProgramCounter + i + 1), parameterModes[i]);
                     parameters.Add(parameter);
                 }
-                var outputAddress = _executionContext.Memory[_executionContext.ProgramCounter + instruction.ParametersLength + 1];
+                var outputAddress = (int)_executionContext.ReadMemory(_executionContext.ProgramCounter + instruction.ParametersLength + 1);
 
                 var currentPC = _executionContext.ProgramCounter;
 
@@ -91,11 +91,13 @@ namespace advent_of_code_2019.Intcode
             return result.ToArray();
         }
 
-        public int ResolveParameter(int val, int parameterMode)
+        public long ResolveParameter(long val, int parameterMode)
         {
             return parameterMode == 1
-                ? val
-                : _executionContext.Memory[val];
+                ? val 
+                : parameterMode == 2
+                ? _executionContext.ReadMemory(_executionContext.RealativeBase + (int)val)
+                : _executionContext.ReadMemory((int)val);
         }
     }
 
@@ -108,17 +110,17 @@ namespace advent_of_code_2019.Intcode
     public class IntCodeInstruction
     {
         public int OpCode { get; set; }
-        public Func<int[], ExecutionContext, int> Function { get; set; }
-        public Action<int[], ExecutionContext> Sub { get; set; }
+        public Func<long[], ExecutionContext, long> Function { get; set; }
+        public Action<long[], ExecutionContext> Sub { get; set; }
         public int ParametersLength { get; set; }
         public bool HasReturnValue => Function != null;
 
-        public void Execute(ExecutionContext executionContext, int[] parameters, int outputAddress)
+        public void Execute(ExecutionContext executionContext, long[] parameters, int outputAddress)
         {
             if (Function != null)
             {
                 var output = Function(parameters, executionContext);
-                executionContext.Memory[outputAddress] = output;
+                executionContext.SetMemory(outputAddress, output);
             }
 
             if (Sub != null)
@@ -132,13 +134,29 @@ namespace advent_of_code_2019.Intcode
     public class ExecutionContext
     {
         public int ProgramCounter { get; set; }
-        public List<int> Memory { get; set; }
+        public int RealativeBase { get; set; }
+        private Dictionary<int, long> Memory { get; set; }
         public bool Interrupted { get; set; }
 
-        public ExecutionContext(List<int> memory)
+        public ExecutionContext(List<long> memory)
         {
-            Memory = memory;
+            Memory = new Dictionary<int, long>();
+            for (int idx = 0; idx < memory.Count(); idx++)
+                Memory.Add(idx, memory[idx]);
             ProgramCounter = 0;
+        }
+
+        public long ReadMemory(int address)
+        {
+            if (!Memory.ContainsKey(address))
+                Memory.Add(address, 0);            
+
+            return Memory[address];
+        }
+
+        public void SetMemory(int address, long value)
+        {
+            Memory[address] = value;
         }
 
         public bool StepProgramCounter(int steps)
@@ -154,7 +172,7 @@ namespace advent_of_code_2019.Intcode
 
         public int CurrentInstruction()
         {
-            return Memory[ProgramCounter];
+            return (int)Memory[ProgramCounter];
         }
     }
 }

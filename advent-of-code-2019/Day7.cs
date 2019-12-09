@@ -9,22 +9,22 @@ namespace advent_of_code_2019
 {
     public static class Day7
     {
-        static Queue<int> ProgramInput;
-        static Queue<int> ProgramOutput;
+        static Queue<long> ProgramInput;
+        static Queue<long> ProgramOutput;
 
 
-        public static int Problem1(IEnumerable<int> input)
+        public static long Problem1(IEnumerable<long> input)
         {
             var possibleCombinations = Permutations.GetPermutations("01234");
             var instructionSet = GetInstructionSet();
             var computer = new IntCodeComputer(instructionSet);
 
-            var bestResult = int.MinValue;
+            var bestResult = long.MinValue;
 
             foreach (var combination in possibleCombinations)
             {
-                ProgramOutput = new Queue<int>();
-                ProgramInput = new Queue<int>();
+                ProgramOutput = new Queue<long>();
+                ProgramInput = new Queue<long>();
                 ProgramOutput.Enqueue(0);
                 for (int i = 0; i < 5; i++)
                 {
@@ -44,7 +44,7 @@ namespace advent_of_code_2019
             return bestResult;
         }
 
-        public static int Problem2(IEnumerable<int> input)
+        public static long Problem2(IEnumerable<long> input)
         {
             var possibleCombinations = Permutations.GetPermutations("56789");
             var instructionSet = GetInstructionSet();
@@ -56,12 +56,12 @@ namespace advent_of_code_2019
                 ProgramOutput.Enqueue(parameters[0]);
             };
             
-            var bestResult = int.MinValue;
+            var bestResult = long.MinValue;
 
             foreach (var combination in possibleCombinations)
             {
-                ProgramOutput = new Queue<int>();
-                ProgramInput = new Queue<int>();
+                ProgramOutput = new Queue<long>();
+                ProgramInput = new Queue<long>();
 
                 var amplifiers = new IntCodeComputer[5];
 
@@ -137,7 +137,7 @@ namespace advent_of_code_2019
                     Sub = (parameters, executionContext) =>
                     {
                         if (parameters[0] != 0)
-                            executionContext.ProgramCounter = parameters[1];
+                            executionContext.ProgramCounter = (int)parameters[1];
                     }
                 },
                 //jump-if-false
@@ -148,7 +148,7 @@ namespace advent_of_code_2019
                     Sub = (parameters, executionContext) =>
                     {
                         if (parameters[0] == 0)
-                            executionContext.ProgramCounter = parameters[1];
+                            executionContext.ProgramCounter = (int)parameters[1];
                     }
                 },
                 //less than
