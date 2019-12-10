@@ -19,6 +19,7 @@ namespace advent_of_code_2019
         public static IEnumerable<long> day7Input;
         public static string day8Input;
         public static IEnumerable<long> day9Input;
+        public static IEnumerable<string> day10Input;
         static void Main()
         {
             GetInputs();
@@ -123,6 +124,11 @@ namespace advent_of_code_2019
             PrintOutput("Day 8, problem 2", Day8.Problem2(day8Input), problemTimer);
             problemTimer.Restart();
 
+            PrintOutput("Day 10, problem 1", Day10.Problem1(day10Input), problemTimer);
+            problemTimer.Restart();
+            //PrintOutput("Day 10, problem 2", Day10.Problem2(day10Input), problemTimer);
+            //problemTimer.Restart();
+
             timerAll.Stop();
             Console.WriteLine($"Total elapsed time: {timerAll.ElapsedMilliseconds}ms");
         }
@@ -156,6 +162,7 @@ namespace advent_of_code_2019
             day7Input = InputReader.ReadInput(day: 7, delimiter: ",").Select(x => long.Parse(x)).ToList();
             day8Input = InputReader.ReadSingleLineInput(day: 8);
             day9Input = InputReader.ReadInput(day: 9, delimiter: ",").Select(x => long.Parse(x)).ToList();
+            day10Input = InputReader.ReadMultilineInput(10);
         }
     }
 }
